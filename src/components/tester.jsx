@@ -121,7 +121,7 @@ const DrawingPad = React.memo(() => {
                     <path
                         d={currentPath}
                         fill="none"
-                        stroke={lineColor}
+                        stroke="gray"
                         strokeWidth={lineWidth}
                         strokeLinecap="round"
                         strokeLinejoin="round"
