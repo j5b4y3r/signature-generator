@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from 'react';
 
 const Draw = () => {
@@ -7,7 +8,7 @@ const Draw = () => {
     const [lastX, setLastX] = useState(0);
     const [lastY, setLastY] = useState(0);
     const [brushWidth, setBrushWidth] = useState(3); // Initial brush width
-    const [lastBrushWidth, setLastBrushWidth] = useState(5); // Store previous brush width
+    const [, setLastBrushWidth] = useState(5); // Store previous brush width
 
     const startDrawing = ({ nativeEvent }) => {
         const { offsetX, offsetY } = nativeEvent;
@@ -60,7 +61,7 @@ const Draw = () => {
                 <canvas
                     ref={canvasRef}
                     className="signature-canvas bg-white border"
-                    width="800"
+                    width="400"
                     height="200"
                     onMouseDown={startDrawing}
                     onMouseMove={draw}
