@@ -61,7 +61,7 @@ const Draw = () => {
                 <canvas
                     ref={canvasRef}
                     className="signature-canvas bg-white border"
-                    width="400"
+                    width={window.innerWidth > 600?"800":"400"}
                     height="200"
                     onMouseDown={startDrawing}
                     onMouseMove={draw}
