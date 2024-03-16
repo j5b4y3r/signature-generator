@@ -67,4 +67,4 @@ const Draw = () => {
     );
 };
 
-export default Draw;
+export default React.memo(Draw);

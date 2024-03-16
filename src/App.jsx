@@ -1,7 +1,7 @@
 import SignatureGenerator from "./pages/signature_generator";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Draw from "./components/draw_signature/draw";
-import {Type} from "./components/type_signature/type";
+import Type from "./components/type_signature/type";
 import DrawingPad from "./components/tester";
 
 function App() {
