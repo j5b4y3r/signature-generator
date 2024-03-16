@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 const Type = () => {
     const [signature, setSignature] = useState('');
     const [color, setColor] = useState('#000000');
@@ -179,4 +180,5 @@ const Type = () => {
     );
 };
 
-export default React.memo(Type);
+// eslint-disable-next-line react-refresh/only-export-components
+export default Type;
