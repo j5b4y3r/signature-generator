@@ -1,72 +1,36 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from 'react';
+import SignatureCanvas from "../../lib/rsc/index.jsx";
+
 
 const Draw = () => {
     const canvasRef = useRef(null);
     const [lineColor, setLineColor] = useState('#000000');
-    const [isDrawing, setIsDrawing] = useState(false);
-    const [lastX, setLastX] = useState(0);
-    const [lastY, setLastY] = useState(0);
     const [brushWidth, setBrushWidth] = useState(3); // Initial brush width
-    const [, setLastBrushWidth] = useState(5); // Store previous brush width
-
-    const startDrawing = ({ nativeEvent }) => {
-        const { offsetX, offsetY } = nativeEvent;
-        setIsDrawing(true);
-        setLastX(offsetX);
-        setLastY(offsetY);
-    };
-
-    const draw = ({ nativeEvent }) => {
-        if (!isDrawing) return;
-        const { offsetX, offsetY } = nativeEvent;
-        const ctx = canvasRef.current.getContext('2d');
-        const distance = Math.sqrt((offsetX - lastX) ** 2 + (offsetY - lastY) ** 2);        // Calculate the distance between current and previous points
-        // Adjust brush width based on the drawing speed
-        const newBrushWidth = Math.max(1, Math.min(20, distance / 2));
-        ctx.strokeStyle = lineColor;
-        ctx.lineWidth = brushWidth;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(offsetX, offsetY);
-        ctx.stroke();
-        setLastX(offsetX);
-        setLastY(offsetY);
-        setLastBrushWidth(newBrushWidth); // Update last brush width
-    };
-
-    const finishDrawing = () => {
-        setIsDrawing(false);
-    };
 
     const clearCanvas = () => {
-        const ctx = canvasRef.current.getContext('2d');
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        canvasRef.current.clear();
     };
 
     const downloadSignature = () => {
-        const canvas = canvasRef.current;    // Get the current canvas element
         const downloadLink = document.createElement('a');
         downloadLink.download = 'signature.png';  // Set the filename for the downloaded image
-        downloadLink.href = canvas.toDataURL('image/png');  // Get the data URL with base64 encoding of the canvas content
+        downloadLink.href = canvasRef.current.getTrimmedCanvas().toDataURL("image/png"); // Get the data URL with base64 encoding of the canvas content
         downloadLink.click();  // Trigger the download of the image
     };
 
     return (
         <div className="container d-flex flex-column align-items-center">
             <h3 className="text-center my-3">Draw your eSignature here</h3>
-            <div className="signature-canvas-container">
-                <canvas
+            <div className="signature-canvas-container border-2 border-danger">
+                <SignatureCanvas
                     ref={canvasRef}
-                    className="signature-canvas bg-white border"
-                    width={window.innerWidth > 600?"800":"400"}
-                    height="200"
-                    onMouseDown={startDrawing}
-                    onMouseMove={draw}
-                    onMouseUp={finishDrawing}
-                    onMouseOut={finishDrawing}
+                    penColor={lineColor}
+                    penWidth={brushWidth}
+                    canvasProps={{
+                        width: window.innerWidth > 500 ? "800" : "400",
+                        height: 200,
+                        className: 'sigCanvas'
+                    }}
                 />
             </div>
             <div className="form d-flex justify-content-center">
