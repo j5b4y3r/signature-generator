@@ -13,7 +13,7 @@ function App() {
                 <Route path="/" element={<a href="/online-signature">Generate</a>} />
                 <Route path="/online-signature" element={<SignatureGenerator />} />
                 <Route path="/online-signature/draw" element={<Draw />} />
-                <Route path="/online-signature/draw" element={<Type />} />
+                <Route path="/online-signature/type" element={<Type />} />
                 <Route path="/test" element={<DrawingPad />} />
             </Routes>
         </BrowserRouter>
