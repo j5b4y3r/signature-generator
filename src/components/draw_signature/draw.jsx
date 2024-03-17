@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import SignatureCanvas from "../../lib/rsc/index.jsx";
 
+// eslint-disable-next-line react-refresh/only-export-components
 const Draw = () => {
     const canvasRef = useRef(null);
     const [lineColor, setLineColor] = useState('#000000');
