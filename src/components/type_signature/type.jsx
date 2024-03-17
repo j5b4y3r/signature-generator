@@ -47,6 +47,7 @@ const Type = () => {
             'Thasadith'
         ]
     };
+    const [dList, setDList] = useState(false);
 
     const handleStyleChange = (e) => {
         setSelectedStyle(e.target.value);
@@ -73,18 +74,18 @@ const Type = () => {
             <div className="row">
                 <div className="col-12">
                     <div className="d-flex flex-row justify-content-center align-items-center">
-                        <div className="col-12">
+                        <div className="row-cols-auto">
                             <h1 className="text-center my-4">Type your signature</h1>
-                            <div className=" mb-3 w-100">
+                            <div className="mb-3 w-100">
                                 <input
                                     type="text"
-                                    className="form-control text-center"
+                                    className="form-control p-2 text-center rounded-pill"
                                     value={signature}
                                     onChange={(e) => setSignature(e.target.value)}
                                     placeholder="Your signature"
                                 />
                             </div>
-                            <div className="d-flex justify-content-between mb-3 w-100">
+                            <div className="d-flex justify-content-between w-100">
                                 <div className="mb-3 d-flex justify-content-between">
                                     <div style={{marginRight: '10px'}} className="text-center">
                                         <select
@@ -92,8 +93,10 @@ const Type = () => {
                                             value={selectedStyle}
                                             onChange={handleStyleChange}
                                         >
-                                            <option key="0" className="btn bg-info" value="handwriting">Handwriting</option>
-                                            <option key="1" className="btn bg-info" value="sans_sarif">Sans Serif</option>
+                                            <option key="0" className="btn bg-info" value="handwriting">Handwriting
+                                            </option>
+                                            <option key="1" className="btn bg-info" value="sans_sarif">Sans Serif
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -111,40 +114,52 @@ const Type = () => {
                                         <p style={{marginLeft: "3px"}} className="text-center">{color}</p>
                                     </div>
                                 </div>
-                                <div>
-                                    <button className="btn btn-primary me-2">Grid</button>
-                                    <button className="btn btn-primary">List</button>
+                                <div className="ms-3 d-none d-sm-block">
+                                    <button disabled={!dList} onClick={() => setDList(false)} className="btn btn-primary me-2">
+                                        <i className="bi bi-grid-3x3-gap"></i>
+                                        Grid
+                                    </button>
+                                    <button disabled={dList} onClick={() => setDList(true)} className="btn btn-primary">
+                                        <i className="bi bi-list"></i>
+                                        List
+                                    </button>
                                 </div>
-                                <button className="btn" style={{
-                                    marginRight: '10px',
-                                    paddingBottom: "0",
-                                    paddingTop: '0',
-                                }} onClick={() => setSignature('')}>Clear
-                                </button>
+                                <div className="text-center">
+                                    <button className="btn ms-2 p-2" onClick={() => setSignature('')}>
+                                        Clear
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="row">
+
+                    <div className={dList ? 'list-group w-100' : 'row'}>
                         {selectedStyle === 'handwriting' ?
                             styles.handwriting.map((style, index) => (
                                 signature !== '' &&
-                                <div key={index} className="col-md-4 mb-3">
+                                <div key={index} className={dList ? 'list-group-item border-0' : 'col-md-4 mb-3'}>
                                     <div className="card">
                                         <div className="card-body">
                                             <span className="card-title">{style}</span>
-                                            <article aria-placeholder="Your signature will show here"
-                                                     className="card-text mb-5 mt-5 text-nowrap overflow-hidden" style={{
-                                                fontFamily: style,
-                                                color: color,
-                                                fontSize: `60px`,
-                                                textAlign: 'center',
-                                            }}>
-                                                {signature.toLowerCase()}
-                                            </article>
-                                            <button onClick={() => handleDownload(style, color)}
-                                                    className="btn btn-info text-white w-100">Download Signature
-                                            </button>
+                                            <div
+                                                className={dList ? "d-flex justify-content-between align-items-center" : "text-center"}>
+                                                <article aria-placeholder="Your signature will show here"
+                                                         className="card-text mb-5 mt-5 text-nowrap overflow-hidden"
+                                                         style={{
+                                                             fontFamily: style,
+                                                             color: color,
+                                                             fontSize: `60px`,
+                                                             textAlign: 'center',
+                                                             padding: "10px"
+                                                         }}>
+                                                    {signature.toLowerCase()}
+                                                </article>
+                                                <button onClick={() => handleDownload(style, color)}
+                                                        className="btn btn-primary  p-2 px-5 me-2 mt-2 fw-bolder fs-6 border-2 rounded-pill">Download
+                                                    Signature
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,28 +167,35 @@ const Type = () => {
                             :
                             styles.sans_serif.map((style, index) => (
                                 signature !== '' &&
-                                <div key={index} className="col-md-4 mb-3">
+                                <div key={index} className={dList ? 'list-group-item border-0' : 'col-md-4 mb-3'}>
                                     <div className="card">
                                         <div className="card-body">
                                             <span className="card-title">{style}</span>
-                                            <article aria-placeholder="Your signature will show here"
-                                                     className="card-text mb-5 mt-5 text-nowrap overflow-hidden" style={{
-                                                    fontFamily: style,
-                                                    color: color,
-                                                    fontSize: `60px`,
-                                                    textAlign: 'center'
-                                                }}>
+                                            <div
+                                                className={dList ? "d-flex justify-content-between align-items-center" : "text-center"}>
+                                                <article aria-placeholder="Your signature will show here"
+                                                         className="card-text mb-5 mt-5 text-nowrap overflow-hidden"
+                                                         style={{
+                                                             fontFamily: style,
+                                                             color: color,
+                                                             fontSize: `60px`,
+                                                             textAlign: 'center',
+                                                             paddingLeft: "10px"
+                                                         }}>
                                                     {signature.toLowerCase()}
                                                 </article>
                                                 <button onClick={() => handleDownload(style, color)}
-                                                        className="btn btn-info text-white w-100">Download Signature
+                                                        className="btn btn-primary  p-2 px-5 me-2 mt-2 fw-bold fs-5 border-2 rounded-pill">Download
+                                                    Signature
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             ))
                         }
                     </div>
+
                 </div>
             </div>
         </div>

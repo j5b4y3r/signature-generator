@@ -1,37 +1,39 @@
 import React, { useState, useRef } from 'react';
 import SignatureCanvas from "../../lib/rsc/index.jsx";
 
-
 const Draw = () => {
     const canvasRef = useRef(null);
     const [lineColor, setLineColor] = useState('#000000');
-    const [brushWidth, setBrushWidth] = useState(3); // Initial brush width
+    const [brushWidth, setBrushWidth] = useState(3);
+    const [hasDrawn, setHasDrawn] = useState(false);
 
     const clearCanvas = () => {
         canvasRef.current.clear();
+        setHasDrawn(false); // Reset hasDrawn state after clearing
     };
 
     const downloadSignature = () => {
         const downloadLink = document.createElement('a');
-        downloadLink.download = 'signature.png';  // Set the filename for the downloaded image
-        downloadLink.href = canvasRef.current.getTrimmedCanvas().toDataURL("image/png"); // Get the data URL with base64 encoding of the canvas content
-        downloadLink.click();  // Trigger the download of the image
+        downloadLink.download = 'signature.png';
+        downloadLink.href = canvasRef.current.getTrimmedCanvas().toDataURL("image/png");
+        downloadLink.click();
     };
 
     return (
         <div className="container d-flex flex-column align-items-center">
             <h3 className="text-center my-3">Draw your eSignature here</h3>
-            <div className="signature-canvas-container border-2 border-danger">
+            <div className="signature-canvas-container border-1 border-danger rounded">
                 <SignatureCanvas
                     ref={canvasRef}
                     penColor={lineColor}
                     minWidth={0.1}
                     maxWidth={brushWidth}
                     dotSize={brushWidth}
-                    throttle={5}
-                    velocityFilterWeight={0.03}
+                    throttle={16}
+                    velocityFilterWeight={0.003}
+                    onBegin={() => setHasDrawn(true)} // Set hasDrawn state when drawing starts
                     canvasProps={{
-                        width: window.innerWidth > 500 ? "800" : "400",
+                        width: window.innerWidth > 800 ? "800" : window.innerWidth - 20,
                         height: 200,
                         className: 'sigCanvas'
                     }}
@@ -49,7 +51,7 @@ const Draw = () => {
                 </div>
                 <div className="form-group mx-2">
                     <label className="form-label">Width</label>
-                    <input disabled={false}
+                    <input
                         type="range"
                         value={brushWidth}
                         onChange={(e) => setBrushWidth(e.target.value)}
@@ -59,13 +61,17 @@ const Draw = () => {
                     />
                 </div>
             </div>
-            <div className="d-flex justify-content-center mt-3">
-                <button className="btn btn-outline-primary me-2" onClick={clearCanvas}>
-                    Clear and draw again
-                </button>
-                <button className="btn btn-primary" onClick={downloadSignature}>
-                    Download eSignature
-                </button>
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-4 m-2 w-100 text-center">
+                        <button disabled={!hasDrawn} className="btn btn-outline-primary px-5 me-2 mt-2 p-2 fw-bold fs-5 border-2 rounded-pill" onClick={clearCanvas}>
+                            Clear and draw again
+                        </button>
+                        <button disabled={!hasDrawn} className="btn btn-primary p-2 px-5 me-2 mt-2 fw-bold fs-5 border-2 rounded-pill" onClick={downloadSignature}>
+                            Download eSignature
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
