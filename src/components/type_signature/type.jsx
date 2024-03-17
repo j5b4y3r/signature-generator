@@ -185,7 +185,7 @@ const Type = () => {
                                                     {signature.toLowerCase()}
                                                 </article>
                                                 <button onClick={() => handleDownload(style, color)}
-                                                        className="btn btn-primary  p-2 px-5 me-2 mt-2 fw-bold fs-5 border-2 rounded-pill">Download
+                                                        className="btn btn-primary p-2 px-5 me-2 mt-2 fw-bolder fs-6 border-2 rounded-pill">Download
                                                     Signature
                                                 </button>
                                             </div>
