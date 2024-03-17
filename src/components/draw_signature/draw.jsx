@@ -25,7 +25,11 @@ const Draw = () => {
                 <SignatureCanvas
                     ref={canvasRef}
                     penColor={lineColor}
-                    penWidth={brushWidth}
+                    minWidth={0.1}
+                    maxWidth={brushWidth}
+                    dotSize={brushWidth}
+                    throttle={5}
+                    velocityFilterWeight={0.03}
                     canvasProps={{
                         width: window.innerWidth > 500 ? "800" : "400",
                         height: 200,
@@ -45,7 +49,7 @@ const Draw = () => {
                 </div>
                 <div className="form-group mx-2">
                     <label className="form-label">Width</label>
-                    <input
+                    <input disabled={false}
                         type="range"
                         value={brushWidth}
                         onChange={(e) => setBrushWidth(e.target.value)}
